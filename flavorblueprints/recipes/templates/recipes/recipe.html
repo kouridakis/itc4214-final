@@ -1,0 +1,32 @@
+{% extends 'common/layout.html' %}
+
+{% if recipe is null %}
+    {% block title %}Recipe not found{% endblock %}
+
+    {% block content %}
+        <h1>Recipe not found.</h1>
+    {% endblock %}
+
+    {% return %}
+{% endif %}
+
+
+{% block title %}{{recipe.title}}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ recipe.title }}</h1>
+                <p>{{ recipe.description }}</p>
+                <p>{{ recipe.ingredients_metric }}</p>
+                <p>{{ recipe.instructions }}</p>
+                <h2>Categories:</h2>
+                <ul>
+                    {% for category in recipe.categories %}
+                        <li>{{ category.name }}</li>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
