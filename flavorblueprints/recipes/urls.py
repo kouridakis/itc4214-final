@@ -5,4 +5,5 @@ app_name = "recipes"
 urlpatterns = [
     path("", views.index, name="index"),
     path(f"{app_name}/<int:recipe_id>/", views.recipe, name="recipe"),
+    path("category/<int:category_id>/", views.category, name="category")
 ]
