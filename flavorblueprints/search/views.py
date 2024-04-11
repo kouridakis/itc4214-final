@@ -9,7 +9,8 @@ def per_word_search(query: str) -> QuerySet:
     Filters recipes based on each word in the query, 
     instead of the whole query as a single string.
     """
-    query = query.strip().replace(",", "").replace(".", "")
+    # Replace punctuation with spaces to avoid accidentally combining words.
+    query = query.strip().replace(",", " ").replace(".", " ")
     words = query.split(" ")
 
     filter = Q()
