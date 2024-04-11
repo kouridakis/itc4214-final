@@ -1,13 +1,23 @@
 {% extends 'common/layout.html' %}
 
+{% load static %}
+
+
+{% block imports %}
+    <script src="{% static 'accounts/js/format-form.js' %}"></script>
+{% endblock %}
+
 {% block title %}Login{% endblock %}
 
 {% block body %}
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Login</button>
-    </form>
-    <p><a href="{% url 'accounts:register' %}">Register</a></p>
+    <div class="container">
+        <h1 class="pt-5 pb-1">Login</h1>
+        <p><a class="text-decoration-none fw-semibold fst-italic"
+            href="{% url 'accounts:register' %}">No account? Register here.</a></p>
+        <form id="target-form" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Login</button>
+        </form>
+    </div>
 {% endblock %}
