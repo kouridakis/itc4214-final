@@ -17,7 +17,9 @@
         <form id="target-form" method="post">
             {% csrf_token %}
             {{ form }}
-            <button type="submit">Login</button>
+            <div class="pt-3">
+                <button type="submit" class="btn btn-dark d-block mx-auto">Login</button>
+            </div>
         </form>
     </div>
 {% endblock %}

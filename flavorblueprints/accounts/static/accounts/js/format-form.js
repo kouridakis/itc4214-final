@@ -21,6 +21,4 @@ $(() => {
         // Move supporting text to be under each input.
         $(helptext).insertAfter($(helptext).next());
     });
-
-    $('#target-form button').addClass('btn btn-dark d-block mt-3 mx-auto');
 })
