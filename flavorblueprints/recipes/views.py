@@ -3,6 +3,12 @@ from django.http import Http404
 from .models import SubCategory, Recipe, Photo
 
 def get_recipes_with_photos(recipes):
+    """
+    Takes a list of Recipes, and returns a list of tuples associating
+    them to their first related Photo.
+
+    The returned tuples have the form (Recipe, Photo).
+    """
     recipes_with_photos: list[tuple[Recipe, Photo]] = []
     for recipe in recipes:
         photo = Photo.objects.filter(recipe=recipe)[0]
@@ -12,6 +18,8 @@ def get_recipes_with_photos(recipes):
 # Create your views here.
 def index(request):
     # Get 10 most recent recipes
+    # Not very useful in this case, as there are only 5 total recipes,
+    # but good for future reference.
     recipes = Recipe.objects.order_by("-timestamp")
     if len(recipes) > 10:
         recipes = recipes[:10]
