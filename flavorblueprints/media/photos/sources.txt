@@ -1,0 +1,23 @@
+Gemista
+gemist-1.jpg: akispetretzikis.com
+gemista-2.jpg: mygreekdish.com
+recipe: akispetretzikis.com
+
+Potato Salad
+potatosalad-1.jpg: akispetretzikis.com
+recipe: akispetretzikis.com
+
+Tsouhti
+tsouhti-1.jpg: akispetretzikis.com
+tsouhti-2.jpg: 30daysofgreekfood.com
+recipe: akispetretzikis.com
+
+White Russian
+white-russian-1.jpg: delish.com
+white-russian-2.jpg: allrecipes.com
+recipe: kahlua.com
+
+Swedish Glögg
+glogg-1.webp: sweden.se
+glogg-2.jpg: bbc.co.uk
+recipe: my own
