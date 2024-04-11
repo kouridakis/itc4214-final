@@ -41,9 +41,9 @@
             <!-- Search and login buttons stay next to the toggle button 
                 even when the navbar collapses.-->
             <div class="d-flex order-md-1">
-                <a href="#" class="btn" aria-label="Search">
+                <a href="{% url 'search:index' %}" class="btn" aria-label="Search">
                     <i class="bi bi-search h4"></i></a>
-                <a href="#" class="btn" aria-label="Login">
+                <a href="{% url 'accounts:profile' %}" class="btn" aria-label="Login">
                     <i class="bi bi-person-circle h4"></i></a>
                 <button type="button" class="navbar-toggler"
                     data-bs-toggle="collapse" data-bs-target="#navbarContent"
