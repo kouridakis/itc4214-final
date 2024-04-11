@@ -19,6 +19,11 @@
     <link 
         rel="stylesheet" 
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" >
     <!-- jQuery -->
     <script 
         src="https://code.jquery.com/jquery-3.7.1.min.js" 
@@ -30,12 +35,12 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <nav class="navbar navbar-expand-md sticky-top">
         <div class="container-fluid">
-            <a href="#" class="navbar-brand">FlavorBlueprints</a>
+            <a href="{% url 'recipes:index' %}" class="navbar-brand logo">FlavorBlueprints</a>
             <!-- Search and login buttons stay next to the toggle button 
                 even when the navbar collapses.-->
-            <div class="d-flex order-lg-1">
+            <div class="d-flex order-md-1">
                 <a href="#" class="btn" aria-label="Search">
                     <i class="bi bi-search h4"></i></a>
                 <a href="#" class="btn" aria-label="Login">
@@ -47,32 +52,26 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active"
-                            aria-current="page">Home</a>
-                    </li>
+            <div class="collapse navbar-collapse fw-semibold fst-italic" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle"
+                        <a href="#" class="nav-link dropdown-toggle text-center text-md-start"
                             role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">Food</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" 
-                                class="dropdown-item">Category 1</a></li>
-                            <li><a href="#" 
-                                class="dropdown-item">Category 2</a></li>
+                            <li><a href="{% url 'recipes:category' '1' %}" 
+                                class="dropdown-item">Vegan</a></li>
+                            <li><a href="{% url 'recipes:category' '2' %}" 
+                                class="dropdown-item">Vegetarian</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle"
+                        <a href="#" class="nav-link dropdown-toggle text-center text-md-start"
                             role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">Drinks</a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" 
-                                class="dropdown-item">Category 1</a></li>
-                            <li><a href="#" 
-                                class="dropdown-item">Category 2</a></li>
+                            <li><a href="{% url 'recipes:category' '3' %}" 
+                                class="dropdown-item">Cocktails</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -85,5 +84,9 @@
     {% endblock %}
     </div>
 
+    <!-- Footer -->
+    <footer class="container-fluid text-center pt-5 pb-2">
+        <p>&copy; <span class="logo">FlavorBlueprints</span> 2024</p>
+    </footer>
 </body>
 </html>
