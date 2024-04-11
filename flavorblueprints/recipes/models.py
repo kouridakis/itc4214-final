@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 # Create your models here.
 class PrimaryCategory(models.Model):
@@ -20,6 +20,7 @@ class Recipe(models.Model):
     ingredients_metric = models.TextField()
     ingredients_imperial = models.TextField()
     instructions = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
