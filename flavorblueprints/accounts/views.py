@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import RegisterForm
+from .forms import RegisterForm, EditForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -15,4 +15,11 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, "accounts/profile.html", {"user": request.user})
+    if request.method == "POST":
+        form = EditForm(request.POST, user=request.user)
+        if form.is_valid():
+            form.save(request.user)
+    else:
+        form = EditForm(user=request.user)
+
+    return render(request, "accounts/profile.html", {"form": form})
