@@ -2,11 +2,16 @@ from django.db import models
 
 
 # Create your models here.
-class Category(models.Model):
+class PrimaryCategory(models.Model):
     name = models.CharField(max_length=255)
-    supercategory = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
         return self.name
+
+class SubCategory(models.Model):
+    name = models.CharField(max_length=255)
+    primary_category = models.ForeignKey(PrimaryCategory, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.name} ({self.primary_category.name})"
 
 
 class Recipe(models.Model):
@@ -15,7 +20,7 @@ class Recipe(models.Model):
     ingredients_metric = models.TextField()
     ingredients_imperial = models.TextField()
     instructions = models.TextField()
-    categories = models.ManyToManyField(Category)
+    category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
 
