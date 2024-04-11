@@ -1,32 +1,18 @@
 {% extends 'common/layout.html' %}
 
-{% if recipe is null %}
-    {% block title %}Recipe not found{% endblock %}
 
-    {% block content %}
-        <h1>Recipe not found.</h1>
-    {% endblock %}
+{% block title %}{{ recipe.title }}{% endblock %}
 
-    {% return %}
-{% endif %}
-
-
-{% block title %}{{recipe.title}}{% endblock %}
-
-{% block content %}
+{% block body %}
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>{{ recipe.title }}</h1>
-                <p>{{ recipe.description }}</p>
-                <p>{{ recipe.ingredients_metric }}</p>
-                <p>{{ recipe.instructions }}</p>
-                <h2>Categories:</h2>
-                <ul>
-                    {% for category in recipe.categories %}
-                        <li>{{ category.name }}</li>
-                    {% endfor %}
-            </div>
-        </div>
+        {% for photo in photos %}
+            <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}" class="img-fluid">
+        {% endfor %}
+        <h1>{{ recipe.title }}</h1>
+        <p>{{ recipe.description }}</p>
+        <p>{{ recipe.ingredients_metric }}</p>
+        <p>{{ recipe.ingredients_imperial }}</p>
+        <p>{{ recipe.instructions }}</p>
+        <p>{{ recipe.category }}</p>
     </div>
 {% endblock %}
