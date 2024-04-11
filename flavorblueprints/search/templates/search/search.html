@@ -1,0 +1,51 @@
+{% extends 'common/layout.html' %}
+
+{% load static %}
+
+
+{% block title %}Search Results{% endblock %}
+
+{% block imports %}
+    <script src="{% static 'search/js/search.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="pt-5 text-center">Search for recipes</h1>
+        <p class="pt-1 pb-3 text-center fst-italic">You can search by name and ingredients.</p>
+        <form id="search-form">
+            <div class="input-group mb-3 px-5">
+                <input type="text" id="search-input" class="form-control"
+                    placeholder="Search for recipes" value="{{ query }}">
+                <button class="btn btn-dark" type="submit">Search</button>
+            </div>
+        </form>
+
+        {% if not recipes_with_photos %}
+            <!-- Only display this message if a query was actually typed -->
+            {% if query %}
+                <p class="text-center">No recipes found.</p>
+            {% endif %}
+        {% else %}
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for recipe_and_photo in recipes_with_photos %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ recipe_and_photo.1.image.url }}" 
+                                class="card-img-top" 
+                                alt="{{ recipe_and_photo.1.alt_text }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ recipe_and_photo.0.title }}</h5>
+                                <p class="card-text">{{ recipe_and_photo.0.description }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{% url 'recipes:recipe' recipe_and_photo.0.id %}" 
+                                    class="btn btn-dark">View Recipe</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div> 
+        {% endif %}
+    </div>
+{% endblock %}
