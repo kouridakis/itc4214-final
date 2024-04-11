@@ -1,18 +1,48 @@
 {% extends 'common/layout.html' %}
 
+{% load static %}
+
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'recipes/css/recipe.css' %}">
+{% endblock %}
 
 {% block title %}{{ recipe.title }}{% endblock %}
 
 {% block body %}
     <div class="container">
-        {% for photo in photos %}
-            <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}" class="img-fluid">
-        {% endfor %}
         <h1>{{ recipe.title }}</h1>
-        <p>{{ recipe.description }}</p>
-        <p>{{ recipe.ingredients_metric }}</p>
-        <p>{{ recipe.ingredients_imperial }}</p>
-        <p>{{ recipe.instructions }}</p>
-        <p>{{ recipe.category }}</p>
+
+        <div id="carousel" class="carousel slide pb-3" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                {% for photo in photos %}
+                    <button type="button" 
+                        data-bs-target="#carousel" 
+                        data-bs-slide-to="{{ forloop.counter0 }}" 
+                        {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                        aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner rounded-3">
+                {% for photo in photos %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ photo.image.url }}" alt="{{ photo.alt_text }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        
+        <p id="description">{{ recipe.description }}</p>
+        <p id="ingredients-metric">{{ recipe.ingredients_metric }}</p>
+        <p id="ingredients-imperial">{{ recipe.ingredients_imperial }}</p>
+        <p id="instructions">{{ recipe.instructions }}</p>
+        <p id="category">{{ recipe.category }}</p>
     </div>
 {% endblock %}

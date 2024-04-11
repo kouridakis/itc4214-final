@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,10 +24,13 @@
         src="https://code.jquery.com/jquery-3.7.1.min.js" 
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
         crossorigin="anonymous"></script>
+    <!-- More Imports -->
+    <link rel="stylesheet" href="{% static 'common/css/style.css' %}">
+    {% block imports %}{% endblock %}
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a href="#" class="navbar-brand">FlavorBlueprints</a>
             <!-- Search and login buttons stay next to the toggle button 
