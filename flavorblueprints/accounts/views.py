@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import RegisterForm, EditForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as auth_logout
 
 # Create your views here.
 def register(request):
@@ -8,6 +9,7 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect("accounts:login")
     else:
         form = RegisterForm()
 
@@ -28,3 +30,9 @@ def profile(request):
         "message": message,
         "form": form
     })
+
+def logout(request):
+    if request.user.is_authenticated and request.method == "POST":
+        auth_logout(request)
+
+    return redirect("accounts:login")
