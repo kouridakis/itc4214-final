@@ -72,6 +72,28 @@
             <p>{{ paragraph }}</p>
         {% endfor %}
 
+        <!-- Rating -->
+        {% if user %}
+            <form class="pt-3 pb-3" method="post">
+                {% csrf_token %}
+                <h5 class="d-inline">Did you like this recipe? Give it a star:</h5>
+                <button type="submit" name="rating" class="btn d-inline"><h5>
+                    {% if user_starred %}
+                        <i class="bi bi-star-fill"></i>
+                    {% else %}
+                        <i class="bi bi-star"></i>
+                    {% endif %}
+                         {{ star_count }}</h5></button>
+            </form>
+        {% else %}
+            <div class="pt-3 pb-3">
+                <h5 class="d-inline">Did you like this recipe? Give it a star:</h5>
+                <a href="{% url 'accounts:login' %}" 
+                    class="btn"><h5><i class="bi bi-star"></i> {{ star_count }}</h5></a>
+                <p class="fst-italic">(You will be asked to login)</p>
+            </div>
+        {% endif %}
+
         <!-- Recommendations -->
         {% if recommendations %}
             <h3 class="pt-5 pb-2">If you liked this recipe, you might also like...</h3>

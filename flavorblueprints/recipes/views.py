@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
-from .models import SubCategory, Recipe, Photo
+from .models import SubCategory, Recipe, Photo, Star
 from .utilities import get_recipes_with_photos
 
 # Create your views here.
@@ -25,6 +25,15 @@ def recipe(request, recipe_id):
     except Recipe.DoesNotExist:
         raise Http404("Recipe does not exist")
     
+    # Handle rating
+    if request.method == "POST" and request.user.is_authenticated:
+        # Toggle star
+        if len(Star.objects.filter(user=request.user, recipe=recipe)) > 0:
+            Star.objects.filter(user=request.user, recipe=recipe).delete()
+        else:
+            Star.objects.create(user=request.user, recipe=recipe)
+
+    
     title = recipe.title
     description = recipe.description
     ingredients_metric = recipe.ingredients_metric.split("\n")
@@ -32,6 +41,16 @@ def recipe(request, recipe_id):
     instructions = recipe.instructions.split("\n")
     
     photos = Photo.objects.filter(recipe=recipe)
+
+    # Get stars
+    star_count = len(Star.objects.filter(recipe=recipe))
+
+    # Check if the user has starred the recipe
+    user_starred = False
+    user = None
+    if request.user.is_authenticated:
+        user = request.user
+        user_starred = len(Star.objects.filter(user=user, recipe=recipe)) > 0
 
     # Get recommendations from the same category
     recommendations = Recipe.objects.filter(category=recipe.category).exclude(pk=recipe_id)
@@ -50,6 +69,9 @@ def recipe(request, recipe_id):
         "ingredients_metric": ingredients_metric,
         "ingredients_imperial": ingredients_imperial,
         "instructions": instructions,
+        "star_count": star_count,
+        "user": user,
+        "user_starred": user_starred,
         "recommendations": recommendations
     })
 
