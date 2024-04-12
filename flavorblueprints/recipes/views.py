@@ -1,4 +1,3 @@
-import re
 from django.shortcuts import render
 from django.http import Http404
 from .models import SubCategory, Recipe, Photo
@@ -16,6 +15,7 @@ def index(request):
     recipes_with_photos = get_recipes_with_photos(recipes)
 
     return render(request, "recipes/index.html", {
+        "user": request.user if request.user.is_authenticated else None,
         "recipes_with_photos": recipes_with_photos
     })
 
@@ -35,7 +35,7 @@ def recipe(request, recipe_id):
 
     # Get recommendations from the same category
     recommendations = Recipe.objects.filter(category=recipe.category).exclude(pk=recipe_id)
-    # Fall back to the same primary category if there are no recommendations
+    # Fall back to the same primary category if there are not enough recommendations
     if len(recommendations) < 3:
         primary_category = recipe.category.primary_category
         other_categories = SubCategory.objects.filter(primary_category=primary_category)

@@ -7,7 +7,13 @@
 
 {% block body %}
     <div class="container">
-        <h1 class="pt-5 pb-3">Latest Recipes</h1>
+        {% if user %}
+            <h3 class="pt-5 text-center fst-italic">Welcome back, {{ user.first_name }}!</h3>
+            <h1 class="pt-3 pb-3">Latest Recipes</h1>
+        {% else %}
+            <!-- Extra padding if no greeting is displayed. -->
+            <h1 class="pt-5 pb-3">Latest Recipes</h1>
+        {% endif %}
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {% for recipe_and_photo in recipes_with_photos %}
