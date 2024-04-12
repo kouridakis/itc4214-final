@@ -21,4 +21,7 @@ $(() => {
         // Move supporting text to be under each input.
         $(helptext).insertAfter($(helptext).next());
     });
+
+
+    $('#target-form').parent().css('max-width', '700px');
 })
