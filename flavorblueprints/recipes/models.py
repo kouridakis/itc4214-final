@@ -7,13 +7,13 @@ from django.contrib.auth.models import User
 class PrimaryCategory(models.Model):
     name = models.CharField(max_length=255)
     def __str__(self):
-        return self.name
+        return self.name.replace(" ", "-").lower()
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=255)
     primary_category = models.ForeignKey(PrimaryCategory, on_delete=models.CASCADE)
     def __str__(self):
-        return f"{self.name} ({self.primary_category.name})"
+        return self.name.replace(" ", "-").lower()
 
 class Recipe(models.Model):
     title = models.CharField(max_length=255)
@@ -24,7 +24,7 @@ class Recipe(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
     def __str__(self):
-        return self.title
+        return self.title.replace(" ", "-").lower()
 
 class Photo(models.Model):
     image = models.ImageField(upload_to='photos/')

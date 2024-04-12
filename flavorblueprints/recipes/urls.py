@@ -4,6 +4,6 @@ from . import views
 app_name = "recipes"
 urlpatterns = [
     path("", views.index, name="index"),
-    path(f"{app_name}/<int:recipe_id>/", views.recipe, name="recipe"),
-    path("category/<int:category_id>/", views.category, name="category")
+    path("<str:primary_category_name>/<str:subcategory_name>/", views.category, name="category"),
+    path("<str:primary_category_name>/<str:subcategory_name>/<str:recipe_title>/", views.recipe, name="recipe"),
 ]

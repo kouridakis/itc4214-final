@@ -21,10 +21,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    
-    path("", include("recipes.urls")),
+
     path("", include("accounts.urls")),
     path("", include("search.urls")),
+    # The recipes app contains a lot of wildcard URLs, so it should be last.
+    path("", include("recipes.urls")),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

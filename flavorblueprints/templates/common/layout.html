@@ -59,9 +59,9 @@
                             role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">Food</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'recipes:category' '1' %}" 
+                            <li><a href="{% url 'recipes:category' 'food' 'vegan' %}" 
                                 class="dropdown-item">Vegan</a></li>
-                            <li><a href="{% url 'recipes:category' '2' %}" 
+                            <li><a href="{% url 'recipes:category' 'food' 'vegetarian' %}" 
                                 class="dropdown-item">Vegetarian</a></li>
                         </ul>
                     </li>
@@ -70,7 +70,7 @@
                             role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">Drinks</a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'recipes:category' '3' %}" 
+                            <li><a href="{% url 'recipes:category' 'drinks' 'cocktails' %}" 
                                 class="dropdown-item">Cocktails</a></li>
                         </ul>
                     </li>

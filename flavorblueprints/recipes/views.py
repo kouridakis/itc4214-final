@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
-from .models import SubCategory, Recipe, Photo, Star
+from .models import PrimaryCategory, SubCategory, Recipe, Photo, Star
 from .utilities import get_recipes_with_photos
 
 # Create your views here.
@@ -19,9 +19,20 @@ def index(request):
         "recipes_with_photos": recipes_with_photos
     })
 
-def recipe(request, recipe_id):
+def recipe(request, primary_category_name, subcategory_name, recipe_title):
+    primary_category_name = primary_category_name.replace("-", " ")
+    subcategory_name = subcategory_name.replace("-", " ")
+    recipe_title = recipe_title.replace("-", " ")
+
     try:
-        recipe = Recipe.objects.get(pk=recipe_id)
+        # Cannot use __iexact with ForeignKey
+        primary_category = PrimaryCategory.objects.get(name__iexact=primary_category_name)
+        subcategory = SubCategory.objects.get(
+            name__iexact=subcategory_name, 
+            primary_category=primary_category)
+        recipe = Recipe.objects.get(
+            title__iexact=recipe_title, 
+            category=subcategory)
     except Recipe.DoesNotExist:
         raise Http404("Recipe does not exist")
     
@@ -53,12 +64,12 @@ def recipe(request, recipe_id):
         user_starred = len(Star.objects.filter(user=user, recipe=recipe)) > 0
 
     # Get recommendations from the same category
-    recommendations = Recipe.objects.filter(category=recipe.category).exclude(pk=recipe_id)
+    recommendations = Recipe.objects.filter(category=recipe.category).exclude(pk=recipe.id)
     # Fall back to the same primary category if there are not enough recommendations
     if len(recommendations) < 3:
         primary_category = recipe.category.primary_category
         other_categories = SubCategory.objects.filter(primary_category=primary_category)
-        recommendations = Recipe.objects.filter(category__in=other_categories).exclude(pk=recipe_id)
+        recommendations = Recipe.objects.filter(category__in=other_categories).exclude(pk=recipe.id)
     
     recommendations = get_recipes_with_photos(recommendations)
 
@@ -75,9 +86,17 @@ def recipe(request, recipe_id):
         "recommendations": recommendations
     })
 
-def category(request, category_id):
+def category(request, primary_category_name, subcategory_name):
+    primary_category_name = primary_category_name.replace("-", " ")
+    subcategory_name = subcategory_name.replace("-", " ")
+
     try:
-        category = SubCategory.objects.get(pk=category_id)
+        # Cannot use __iexact with ForeignKey
+        primary_category = PrimaryCategory.objects.get(name__iexact=primary_category_name)
+        # Case insensitive search
+        category = SubCategory.objects.get(
+            name__iexact=subcategory_name, 
+            primary_category=primary_category)
     except Recipe.DoesNotExist:
         raise Http404("Category does not exist")
     

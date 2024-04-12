@@ -20,7 +20,7 @@
                             <p class="card-text">{{ recipe_and_photo.0.description }}</p>
                         </div>
                         <div class="card-footer">
-                            <a href="{% url 'recipes:recipe' recipe_and_photo.0.id %}" 
+                            <a href="{% url 'recipes:recipe' recipe_and_photo.0.category.primary_category recipe_and_photo.0.category recipe_and_photo.0 %}" 
                                 class="btn btn-dark">View Recipe</a>
                         </div>
                     </div>
