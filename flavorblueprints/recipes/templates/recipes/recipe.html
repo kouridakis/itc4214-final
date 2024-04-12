@@ -2,16 +2,19 @@
 
 {% load static %}
 
+
 {% block imports %}
     <link rel="stylesheet" href="{% static 'recipes/css/recipe.css' %}">
+    <script src="{% static 'recipes/js/recipe.js' %}"></script>
 {% endblock %}
 
-{% block title %}{{ recipe.title }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>{{ recipe.title }}</h1>
-
+        <h1 class="pt-5 pb-3">{{ title }}</h1>
+        <p class="description">{{ description }}</p>
+        <!-- Carousel section -->
         <div id="carousel" class="carousel slide pb-3" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 {% for photo in photos %}
@@ -38,11 +41,59 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        
-        <p id="description">{{ recipe.description }}</p>
-        <p id="ingredients-metric">{{ recipe.ingredients_metric }}</p>
-        <p id="ingredients-imperial">{{ recipe.ingredients_imperial }}</p>
-        <p id="instructions">{{ recipe.instructions }}</p>
-        <p id="category">{{ recipe.category }}</p>
+
+        <!-- Ingredients -->
+        <h2 class="pt-2 pb-2">Ingredients</h2>
+        <div class="btn-group pb-2" role="group" aria-label="Units">
+            <input type="radio" class="btn-check" name="unit" id="metric" autocomplete="off" checked>
+            <label class="btn btn-outline-dark" for="metric">Metric</label>
+
+            <input type="radio" class="btn-check" name="unit" id="imperial" autocomplete="off">
+            <label class="btn btn-outline-dark" for="imperial">Imperial</label>
+        </div>
+        <p class="ingredients-metric">
+            <ul class="ingredients-metric">
+                {% for ingredient in ingredients_metric %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+        </p>
+        <p class="ingredients-imperial d-none">
+            <ul class="ingredients-imperial d-none">
+                {% for ingredient in ingredients_imperial %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+        </p>
+
+        <!-- Instructions -->
+        <h2 class="pt-2 pb-2">Instructions</h2>
+        {% for paragraph in instructions %}
+            <p>{{ paragraph }}</p>
+        {% endfor %}
+
+        <!-- Recommendations -->
+        {% if recommendations %}
+            <h3 class="pt-5 pb-2">If you liked this recipe, you might also like...</h3>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for recommendation in recommendations %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ recommendation.1.image.url }}" 
+                                class="card-img-top" 
+                                alt="{{ recommendation.1.alt_text }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ recommendation.0.title }}</h5>
+                                <p class="card-text">{{ recommendation.0.description }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{% url 'recipes:recipe' recommendation.0.id %}" 
+                                    class="btn btn-dark">View Recipe</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div> 
+        {% endif %}
     </div>
 {% endblock %}
