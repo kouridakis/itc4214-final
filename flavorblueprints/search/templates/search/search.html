@@ -23,26 +23,29 @@
             </div>
         </form>
 
-        {% if not recipes_with_photos %}
+        {% if not bundles %}
             <!-- Only display this message if a query was actually typed -->
             {% if query %}
                 <p class="text-center">No recipes found.</p>
             {% endif %}
         {% else %}
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {% for recipe_and_photo in recipes_with_photos %}
+                {% for bundle in bundles %}
                     <div class="col">
                         <div class="card h-100">
-                            <img src="{{ recipe_and_photo.1.image.url }}" 
+                            <img src="{{ bundle.photo.image.url }}" 
                                 class="card-img-top" 
-                                alt="{{ recipe_and_photo.1.alt_text }}">
+                                alt="{{ bundle.photo.alt_text }}">
                             <div class="card-body">
-                                <h5 class="card-title">{{ recipe_and_photo.0.title }}</h5>
-                                <p class="card-text">{{ recipe_and_photo.0.description }}</p>
+                                <h5 class="card-title">{{ bundle.recipe.title }}</h5>
+                                <p class="card-text">{{ bundle.recipe.description }}</p>
                             </div>
-                            <div class="card-footer">
-                                <a href="{% url 'recipes:recipe' recipe_and_photo.0.id %}" 
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <a href="{% url 'recipes:recipe' bundle.recipe.category.primary_category bundle.recipe.category bundle.recipe %}" 
                                     class="btn btn-dark">View Recipe</a>
+                                
+                                <!-- Rating Count -->
+                                <p class="h5 m-0"><i class="bi bi-star-fill"></i> {{ bundle.stars }}</p>
                             </div>
                         </div>
                     </div>

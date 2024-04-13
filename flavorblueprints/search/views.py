@@ -2,7 +2,7 @@ from string import punctuation
 from django.shortcuts import render
 from django.db.models import Q, QuerySet
 from recipes.models import Recipe
-from recipes.utilities import get_recipes_with_photos
+from recipes.utilities import get_recipe_bundles
 
 def per_word_search(query: str) -> QuerySet:
     """
@@ -38,9 +38,9 @@ def index(request):
 def search(request, query):
     recipes = per_word_search(query)
 
-    recipes_with_photos = get_recipes_with_photos(recipes)
+    bundles = get_recipe_bundles(recipes)
 
     return render(request, "search/search.html", {
         "query": query,
-        "recipes_with_photos": recipes_with_photos
+        "bundles": bundles
     })

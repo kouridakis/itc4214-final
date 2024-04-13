@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
 from .models import PrimaryCategory, SubCategory, Recipe, Photo, Star
-from .utilities import get_recipes_with_photos
+from .utilities import get_recipe_bundles
 
 # Create your views here.
 def index(request):
@@ -12,11 +12,11 @@ def index(request):
     if len(recipes) > 10:
         recipes = recipes[:10]
 
-    recipes_with_photos = get_recipes_with_photos(recipes)
+    bundles = get_recipe_bundles(recipes)
 
     return render(request, "recipes/index.html", {
         "user": request.user if request.user.is_authenticated else None,
-        "recipes_with_photos": recipes_with_photos
+        "bundles": bundles
     })
 
 def recipe(request, primary_category_name, subcategory_name, recipe_title):
@@ -71,7 +71,7 @@ def recipe(request, primary_category_name, subcategory_name, recipe_title):
         other_categories = SubCategory.objects.filter(primary_category=primary_category)
         recommendations = Recipe.objects.filter(category__in=other_categories).exclude(pk=recipe.id)
     
-    recommendations = get_recipes_with_photos(recommendations)
+    bundles = get_recipe_bundles(recommendations)
 
     return render(request, "recipes/recipe.html", {
         "title": title,
@@ -83,7 +83,7 @@ def recipe(request, primary_category_name, subcategory_name, recipe_title):
         "star_count": star_count,
         "user": user,
         "user_starred": user_starred,
-        "recommendations": recommendations
+        "recommendations": bundles
     })
 
 def category(request, primary_category_name, subcategory_name):
@@ -101,9 +101,9 @@ def category(request, primary_category_name, subcategory_name):
         raise Http404("Category does not exist")
     
     recipes = Recipe.objects.filter(category=category)
-    recipes_with_photos = get_recipes_with_photos(recipes)
+    bundles = get_recipe_bundles(recipes)
 
     return render(request, "recipes/category.html", {
         "category": category,
-        "recipes_with_photos": recipes_with_photos
+        "bundles": bundles
     })

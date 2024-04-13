@@ -1,14 +1,25 @@
-from .models import Recipe, Photo
+from typing import TypedDict
+from django.db.models import QuerySet
+from .models import Recipe, Photo, Star
 
-def get_recipes_with_photos(recipes):
-    """
-    Takes a list of Recipes, and returns a list of tuples associating
-    them to their first related Photo.
 
-    The returned tuples have the form (Recipe, Photo).
+class RecipeBundle(TypedDict):
+    recipe: Recipe
+    photo: Photo
+    stars: int
+
+def get_recipe_bundles(recipes: QuerySet[Recipe]) -> list[RecipeBundle]:
     """
-    recipes_with_photos: list[tuple[Recipe, Photo]] = []
+    Takes a list of Recipes, and returns a list of RecipeBundles
+    associating each Recipe with its first Photo and the number of Stars it has.
+    """
+    bundles: list[RecipeBundle] = []
     for recipe in recipes:
         photo = Photo.objects.filter(recipe=recipe)[0]
-        recipes_with_photos.append((recipe, photo))
-    return recipes_with_photos
+        stars = Star.objects.filter(recipe=recipe)
+        bundles.append({
+            "recipe": recipe,
+            "photo": photo,
+            "stars": len(stars)
+        })
+    return bundles
