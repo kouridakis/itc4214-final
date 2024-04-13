@@ -36,6 +36,8 @@ def index(request):
     })
 
 def search(request, query):
+    query = query.replace("+", " ")
+    
     recipes = per_word_search(query)
 
     bundles = get_recipe_bundles(recipes)
